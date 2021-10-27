@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="@dimen/_2sdp"
+    android:layout_width="@dimen/_120sdp"
+    android:layout_height="@dimen/_150sdp"
+    android:background="@drawable/btn_bg"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/img1"
+        android:scaleType="fitXY"
+        android:id="@+id/ivImg"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WEDDING"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:id="@+id/tvName"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"/>
+
+
+</RelativeLayout>

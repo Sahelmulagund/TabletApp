@@ -11,7 +11,10 @@
         android:layout_height="match_parent"
         android:src="@drawable/img1"
         android:scaleType="fitXY"
+        android:padding="@dimen/_2sdp"
         android:id="@+id/ivImg"/>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

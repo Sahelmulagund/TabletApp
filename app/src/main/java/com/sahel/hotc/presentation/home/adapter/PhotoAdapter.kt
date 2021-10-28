@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.sahel.hotc.R
 import com.sahel.hotc.presentation.home.data.PhotoModel
 import kotlinx.android.synthetic.main.recycler_photos.view.*
 
-class PhotoAdapter:RecyclerView.Adapter<PhotoAdapter.VH>() {
+class PhotoAdapter(val callable:(PhotoModel)->Unit):RecyclerView.Adapter<PhotoAdapter.VH>() {
 
     var photoList:List<PhotoModel> = ArrayList<PhotoModel>()
     set(value) {
@@ -19,11 +20,15 @@ class PhotoAdapter:RecyclerView.Adapter<PhotoAdapter.VH>() {
 
     inner class VH(itemView:View):RecyclerView.ViewHolder(itemView){
         init {
-
+            with(itemView){
+                setOnClickListener {
+                    callable.invoke(photoList[adapterPosition])
+                }
+            }
         }
         fun bind(data:PhotoModel){
             with(itemView){
-                ivImg.setImageResource(data.image)
+                Glide.with(context).load(data.image).into(ivImg)
                 tvName.text = data.name
             }
         }

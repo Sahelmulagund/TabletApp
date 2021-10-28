@@ -6,6 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.home.VideosFragment">
 
+   <ImageView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+
+       android:scaleType="fitXY"
+       android:id="@+id/bgImg"/>
    <androidx.recyclerview.widget.RecyclerView
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
@@ -15,5 +21,6 @@
        tools:listitem="@layout/recycler_videos"
        android:layout_gravity="center"
        android:id="@+id/rvVideos"/>
-
+   <include
+       layout="@layout/app_bar"/>
 </FrameLayout>

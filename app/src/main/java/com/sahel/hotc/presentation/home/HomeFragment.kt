@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import com.sahel.hotc.R
 import com.sahel.hotc.common.Constants
 import com.sahel.hotc.presentation.home.data.FileModel
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.File
 
@@ -52,19 +53,23 @@ class HomeFragment : Fragment() {
             return
         }
         PATH = filePath
+
        kotlin.runCatching {
            val fileName = getFileModelsFromFiles(getFilesFromPath(PATH))
 
            tvFolderName.text = fileName.get(0).name
-           mbtPhotos.setOnClickListener {
-               (activity as HomeActivity).addReplaceFragment(PhotosFragment(),2,PATH)
-           }
+
 
        }.onFailure {
            Toast.makeText(context,it.message,Toast.LENGTH_SHORT).show()
        }
 
-
+        mbtPhotos.setOnClickListener {
+            (activity as HomeActivity).addReplaceFragment(PhotosFragment(),2,PATH)
+        }
+        mbtVideos.setOnClickListener {
+            (activity as HomeActivity).addReplaceFragment(VideosFragment(),2,PATH)
+        }
     }
 
     fun getFilesFromPath(path: String, showHiddenFiles: Boolean = true, onlyFolders: Boolean = true): List<File> {

@@ -21,6 +21,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:id="@+id/tvFolderName"/>
 
+
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,8 +43,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_bg"
         app:backgroundTint="@color/white"
-        android:paddingStart="@dimen/_16sdp"
-        android:paddingEnd="@dimen/_16sdp"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingEnd="@dimen/_20sdp"
+
         app:layout_constraintTop_toBottomOf="@+id/mbtPhotos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

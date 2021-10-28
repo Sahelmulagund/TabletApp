@@ -108,4 +108,5 @@ class HomeActivity : AppCompatActivity() {
         return (sizeInBytes.toDouble()) / (1024 * 1024)
     }
 
+
 }

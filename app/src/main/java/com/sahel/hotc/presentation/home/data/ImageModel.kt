@@ -1,8 +1,8 @@
 package com.sahel.hotc.presentation.home.data
 
 import android.graphics.Bitmap
+import java.io.File
 
-data class PhotoModel(
-    val name:String,
+data class ImageModel (
     val image:String
-)
+        )

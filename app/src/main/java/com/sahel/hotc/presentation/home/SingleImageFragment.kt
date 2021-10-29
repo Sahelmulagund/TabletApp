@@ -31,6 +31,7 @@ class SingleImageFragment : Fragment() {
             (activity as HomeActivity).onBackPressed()
 
         }
+
         tvName.text = null
         Glide.with(requireContext()).load(Constants.imageSelected!!.image).into(ivImg)
     }

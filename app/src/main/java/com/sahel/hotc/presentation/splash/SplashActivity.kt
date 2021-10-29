@@ -1,15 +1,16 @@
 package com.sahel.hotc.presentation.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.sahel.hotc.R
 import com.sahel.hotc.presentation.home.HomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +21,23 @@ class SplashActivity : AppCompatActivity() {
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             controller.isAppearanceLightStatusBars = true
         }
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this,HomeActivity::class.java))
-            finishAffinity()
-        },3000)
+        val video = Uri.parse("android.resource://" + packageName + "/" + R.raw.hotc)
+        splashVid.setVideoPath(video.toString())
+        splashVid.setOnCompletionListener(object:MediaPlayer.OnCompletionListener{
+            override fun onCompletion(mp: MediaPlayer?) {
+                startNextActivity()
+            }
+
+        });
+        splashVid.start();
+
+    }
+
+    private fun startNextActivity() {
+        if (isFinishing())
+            return;
+        startActivity( Intent(this, HomeActivity::class.java))
+        finish();
+
     }
 }

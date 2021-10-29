@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycler_image.view.*
 
 
-class ImageAdapter(val callable:(ImageModel)->Unit): RecyclerView.Adapter<ImageAdapter.VH>() {
+class ImageAdapter(val callable:(ImageModel,Int)->Unit): RecyclerView.Adapter<ImageAdapter.VH>() {
 
     var imageList:List<ImageModel> = ArrayList<ImageModel>()
         set(value) {
@@ -25,7 +25,7 @@ class ImageAdapter(val callable:(ImageModel)->Unit): RecyclerView.Adapter<ImageA
         init {
             with(itemView){
                 setOnClickListener {
-                    callable.invoke(imageList[adapterPosition])
+                    callable.invoke(imageList[adapterPosition],adapterPosition)
                 }
             }
         }

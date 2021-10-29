@@ -5,7 +5,7 @@
     android:layout_height="@dimen/_150sdp"
 
     android:background="@color/white"
-  >
+    >
 
     <ImageView
         android:layout_width="match_parent"
@@ -14,16 +14,10 @@
         android:scaleType="fitXY"
         android:padding="@dimen/_2sdp"
         android:id="@+id/ivImg"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="WEDDING"
-        android:textSize="@dimen/_12sdp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:id="@+id/tvName"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"/>
-
+     <ImageView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:src="@drawable/ic_polygon_1"
+         android:layout_centerInParent="true"/>
 
 </RelativeLayout>

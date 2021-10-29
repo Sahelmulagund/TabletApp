@@ -1,11 +1,13 @@
 package com.sahel.hotc.presentation.home
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.sahel.hotc.R
 import com.sahel.hotc.common.Constants
@@ -22,23 +24,23 @@ import java.io.File
 
 
 class VideosFragment : Fragment() {
-    private lateinit var PATH: String
-    companion object {
-        private const val ARG_PATH: String = "HOTC"
-        fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
-    }
-
-    class Builder {
-        var path: String = ""
-
-        fun build(): HomeFragment {
-            val fragment = HomeFragment()
-            val args = Bundle()
-            args.putString(ARG_PATH, path)
-            fragment.arguments = args;
-            return fragment
-        }
-    }
+//    private lateinit var PATH: String
+//    companion object {
+//        private const val ARG_PATH: String = "HOTC"
+//        fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
+//    }
+//
+//    class Builder {
+//        var path: String = ""
+//
+//        fun build(): HomeFragment {
+//            val fragment = HomeFragment()
+//            val args = Bundle()
+//            args.putString(ARG_PATH, path)
+//            fragment.arguments = args;
+//            return fragment
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +61,12 @@ class VideosFragment : Fragment() {
         loadData()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun itemClicked(videoModel: VideoModel) {
+
+            (activity as HomeActivity).addReplaceFragment(ListVideosFragment(),2, Constants.folderName!!)
+
+        Constants.videoFolderSelected = videoModel
 
     }
 
@@ -69,11 +76,12 @@ class VideosFragment : Fragment() {
 
             val fileName = nameFolder?.let { (activity as HomeActivity).getFilesFromPath(it) }
             val file = fileName?.get(0)
+
             file?.listFiles()?.filter {
-                it.name == Constants.BACKGROUND
+                it.name == Constants.VIDEO
             }?.mapNotNull {
                 it.listFiles()!!.forEach {
-                    if (it.name.trim() == Constants.VIDEO){
+                    if (it.name.trim() == Constants.BACKGROUND){
                         Glide.with(requireContext()).load(it.listFiles()!!.get(0).absoluteFile).into(bgImg)
                     }
                 }
@@ -82,20 +90,19 @@ class VideosFragment : Fragment() {
 
 
             val mainFile = file!!.listFiles()!!.filter {
-                it.name.trim() == Constants.BACKGROUND.trim()
+                it.name.trim() == Constants.VIDEO.trim()
 
 
             }?.mapNotNull {
-                it.listFiles()!!.filter {
-                    it.name.trim() == Constants.VIDEOBG
-                }.mapNotNull {
-                    (rvVideos.adapter as VideoAdapter).videoList= getVideoModelsFromFiles(it.listFiles()!!.toList().sortedBy { it.name })
+                    (rvVideos.adapter as VideoAdapter).videoList= getVideoModelsFromFiles(it.listFiles()!!.toList()
+                        .sortedBy { it.name }.filter { it.name != Constants.BACKGROUND })
+
 
                 }
 
 
 
-            }
+
 
         }catch (e:Exception){
             Toast.makeText(context,e.message, Toast.LENGTH_SHORT).show()
@@ -105,8 +112,22 @@ class VideosFragment : Fragment() {
     fun getVideoModelsFromFiles(files: List<File>): List<VideoModel> {
         return files.map {
 
-            val myBitmap = it.listFiles()?.get(0)?.absolutePath!!
-            VideoModel(it.name,myBitmap)
+            var fileList:MutableList<File> = ArrayList<File>()
+            it.listFiles()!!.forEach {
+                if (it.absolutePath.contains(".mp4")){
+                    fileList.add(it)
+                }
+            }
+
+               var myBitmap = ""
+              if (fileList.isNotEmpty()){
+                  myBitmap = fileList.get(0).absolutePath
+              }
+
+               VideoModel(it.name,myBitmap)
+
+
+
         }
     }
 }

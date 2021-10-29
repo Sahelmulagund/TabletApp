@@ -15,7 +15,7 @@ class ImageViewModel:ViewModel() {
     }
 
     fun getImageModelsFromFiles(files: List<File>): List<ImageModel> {
-        return files.map {
+        return files.filter { it.absolutePath.contains(".jpg") || it.absolutePath.contains(".png")}.map {
 
             val myBitmap = it.getAbsolutePath()
 

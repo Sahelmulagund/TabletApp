@@ -19,22 +19,23 @@ import java.io.File
 class HomeFragment : Fragment() {
 
     private lateinit var PATH: String
-    companion object {
-        private const val ARG_PATH: String = "HOTC"
-        fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
-    }
-
-    class Builder {
-        var path: String = ""
-
-        fun build(): HomeFragment {
-            val fragment = HomeFragment()
-            val args = Bundle()
-            args.putString(ARG_PATH, path)
-            fragment.arguments = args;
-            return fragment
-        }
-    }
+    private  val ARG_PATH: String = "/emulated/0/HOTC/"
+//    companion object {
+//
+//        fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
+//    }
+//
+//    class Builder {
+//        var path: String = ""
+//
+//        fun build(): HomeFragment {
+//            val fragment = HomeFragment()
+//            val args = Bundle()
+//            args.putString(ARG_PATH, path)
+//            fragment.arguments = args;
+//            return fragment
+//        }
+//    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -20,7 +20,8 @@ import java.io.FileOutputStream
 
 class HomeActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private val filepaths = "HOTC"
+    private val filepaths = "/emulated/0/HOTC/"
+    private val folderPath = "/emulated/0/HOTC/"
     internal var myExternalFile: File? = null
     private val isExternalStorageReadOnly: Boolean
         get() {
@@ -44,17 +45,25 @@ class HomeActivity : AppCompatActivity() {
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             controller.isAppearanceLightStatusBars = true
         }
-        myExternalFile = File(getExternalFilesDir(filepaths), "")
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            myExternalFile = File(getStorageDirectory(), "HOTC")
+//        }
 
 
         if (savedInstanceState == null) {
-            val filesListFragment = HomeFragment.build {
-                path = File(getExternalFilesDir(filepaths), "").absolutePath
-            }
+//            val filesListFragment = HomeFragment.build {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//                    path = File(Environment.getStorageDirectory(), "HOTC").absolutePath
+//                }
+//            }
             val bundle = Bundle()
-            supportFragmentManager.beginTransaction().replace(R.id.nav_fragment, filesListFragment)
-                .addToBackStack(File(getExternalFilesDir(filepaths), "").absolutePath)
-                .commit()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                bundle.putString(filepaths,Environment.getStorageDirectory().path+filepaths)
+                val fragment = HomeFragment()
+                fragment.arguments = bundle
+                supportFragmentManager.beginTransaction().replace(R.id.nav_fragment, fragment)
+                    .commit()
+            }
 
 
         }
@@ -75,10 +84,12 @@ class HomeActivity : AppCompatActivity() {
             2 -> {
 
                 val bundle = Bundle()
-                bundle.putString(Constants.FOLDER_NAME,backStackValue)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    bundle.putString(filepaths,Environment.getStorageDirectory().path+filepaths)
+                }
                 fragment?.arguments = bundle
                 transaction.replace(nav_fragment.id, fragment!!)
-                transaction.addToBackStack(File(getExternalFilesDir(filepaths), "").absolutePath)
+                transaction.addToBackStack(backStackValue)
                 transaction.commit()
 
             }

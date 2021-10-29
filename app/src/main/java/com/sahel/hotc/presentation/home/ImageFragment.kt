@@ -30,22 +30,22 @@ import java.io.File
 
 class ImageFragment : Fragment() {
 
-    companion object {
-        private const val ARG_PATH: String = "HOTC"
-        fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
-    }
-
-    class Builder {
-        var path: String = ""
-
-        fun build(): HomeFragment {
-            val fragment = HomeFragment()
-            val args = Bundle()
-            args.putString(ARG_PATH, path)
-            fragment.arguments = args;
-            return fragment
-        }
-    }
+//    companion object {
+//        private const val ARG_PATH: String = "HOTC"
+//        fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
+//    }
+//
+//    class Builder {
+//        var path: String = ""
+//
+//        fun build(): HomeFragment {
+//            val fragment = HomeFragment()
+//            val args = Bundle()
+//            args.putString(ARG_PATH, path)
+//            fragment.arguments = args;
+//            return fragment
+//        }
+//    }
     private var imageViewModel:ImageViewModel?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +70,8 @@ class ImageFragment : Fragment() {
 
         rvImage.adapter = ImageAdapter(::imageClicked)
         rvImage.setHasFixedSize(true)
-        rvImage.layoutManager = StaggeredGridLayoutManager(4,RecyclerView.VERTICAL)
+        rvImage.layoutManager = GridLayoutManager(requireContext(),4,RecyclerView.VERTICAL,false)
+
 
     }
 
@@ -90,7 +91,7 @@ class ImageFragment : Fragment() {
                     f2->f2.name == Constants.photoFolderSelected!!.name
                 }.map {
                     f3->
-                     imageViewModel?.getImageList(f3.listFiles()!!.toList())
+                     imageViewModel?.getImageList(f3.listFiles()!!.toList().filter { it.name != Constants.BACKGROUND })
                 }
             }
 

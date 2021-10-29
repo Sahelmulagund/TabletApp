@@ -28,6 +28,9 @@ class PhotoAdapter(val callable:(PhotoModel)->Unit):RecyclerView.Adapter<PhotoAd
         }
         fun bind(data:PhotoModel){
             with(itemView){
+                if (data.image.trim().isEmpty()){
+                    this.visibility = View.GONE
+                }
                 Glide.with(context).load(data.image).into(ivImg)
                 tvName.text = data.name
             }

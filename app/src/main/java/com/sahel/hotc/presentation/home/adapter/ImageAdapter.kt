@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sahel.hotc.R
@@ -32,7 +33,7 @@ class ImageAdapter(val callable:(ImageModel,Int)->Unit): RecyclerView.Adapter<Im
         fun bind(data: ImageModel?){
             with(itemView){
                 try {
-                   Glide.with(context).load(data?.image).into(ivImage)
+                   Glide.with(context).load(data?.image).placeholder(ContextCompat.getDrawable(context,R.drawable.image_bg)).into(ivImage)
                 }catch (e:Exception){
                     Toast.makeText(context,e.message,Toast.LENGTH_SHORT).show()
                 }

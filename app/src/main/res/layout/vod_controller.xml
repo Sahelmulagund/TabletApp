@@ -18,6 +18,7 @@
         android:id="@+id/exo_play"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
+
         android:src="@drawable/exo_controls_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,5 +58,49 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:textColor="@color/white"
+        android:id="@+id/exo_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_12sdp"
+        android:text="00:00:00"
+        app:layout_constraintBottom_toTopOf="@+id/exo_progress"
+        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:textColor="@color/white"
+        android:id="@+id/exo_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_12sdp"
+        android:text="00:00:00"
+        app:layout_constraintBottom_toTopOf="@+id/exo_progress"
+        app:layout_constraintEnd_toEndOf="parent" />
+    <ImageView
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/ic_baseline_volume_up_24"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintBottom_toTopOf="@+id/exo_duration"
+       app:layout_constraintTop_toBottomOf="@+id/volumeControl"
+        app:layout_constraintEnd_toEndOf="@id/volumeControl"
+        app:layout_constraintStart_toStartOf="@+id/volumeControl"
+
+        android:id="@+id/ivVolume"/>
+    <SeekBar
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:rotation="270"
+
+        android:id="@+id/volumeControl"
+
+         android:background="@color/splash_color"
+        app:layout_constraintBottom_toTopOf="@+id/ivVolume"
+        app:layout_constraintStart_toEndOf="@id/exo_ffwd"
+
+        android:padding="@dimen/_6sdp"
+        app:layout_constraintTop_toTopOf="@+id/exo_ffwd"
+   />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

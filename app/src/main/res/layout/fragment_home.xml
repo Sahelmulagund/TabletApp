@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.home.HomeFragment">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/img1"
+
+       android:id="@+id/ivBg"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/overlay_image"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -18,7 +30,7 @@
         android:gravity="center"
         android:padding="@dimen/_16sdp"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_38sdp"
         android:id="@+id/tvFolderName"/>
 
 
@@ -30,12 +42,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvFolderName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/_8sdp"
+
+        android:layout_marginTop="@dimen/_48sdp"
         android:text="PHOTOS"
         android:textColor="@color/white"
         android:paddingEnd="@dimen/_16sdp"
+       android:layout_below="@+id/tvFolderName"
+        android:layout_centerInParent="true"
         android:paddingStart="@dimen/_16sdp"
         android:textSize="@dimen/_20sdp"
+
+        app:layout_constraintBottom_toTopOf="@+id/mbtVideos"
         android:padding="@dimen/_4sdp"
         android:id="@+id/mbtPhotos"/>
     <com.google.android.material.button.MaterialButton
@@ -45,15 +62,16 @@
         app:backgroundTint="@color/white"
         android:paddingStart="@dimen/_20sdp"
         android:paddingEnd="@dimen/_20sdp"
+        android:layout_centerInParent="true"
 
-        app:layout_constraintTop_toBottomOf="@+id/mbtPhotos"
+        android:layout_below="@+id/mbtPhotos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_28sdp"
         android:text="VIDEOS"
         android:textColor="@color/white"
         android:textSize="@dimen/_20sdp"
         android:padding="@dimen/_4sdp"
         android:id="@+id/mbtVideos"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -33,7 +33,12 @@ class VideoListAdapter(val callable:(ThumbnailModel)->Unit): RecyclerView.Adapte
         fun bind(data: ThumbnailModel?){
             with(itemView){
                 try {
-                    Glide.with(context).load(data?.thumbNail).into(ivImg)
+                    if(data?.thumbNail != null){
+                        Glide.with(context).load(data?.thumbNail).into(ivImg)
+                    }else{
+                        Glide.with(context).load(data?.name).into(ivImg)
+                    }
+
                 }catch (e:Exception){
                     Toast.makeText(context,e.message, Toast.LENGTH_SHORT).show()
                 }

@@ -9,6 +9,8 @@ import java.io.File
 object Constants {
 
 
+    var VIDEOBACKGROUND: File?=null
+    var PHOTOBACKGROUND: File?=null
     var slidePosition: Int?=null
     var videoSelected: ThumbnailModel?=null
     var videoFolderSelected: VideoModel?=null
@@ -21,7 +23,7 @@ object Constants {
     const val PHOTOBG:String="PhotoBg"
     const val VIDEOBG:String="VideoBg"
     const val BACKGROUND = "Backgrounds"
-    const val THUMBNAIL = "Thumbnails"
+    const val THUMBNAIL = "Thumbnail"
 
     enum class FileType {
         FILE,

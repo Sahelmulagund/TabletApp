@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#CC000000"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.home.SingleVideoFragment">
 
@@ -15,8 +15,7 @@
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/videoPlayer"
             android:layout_width="match_parent"
-            app:resize_mode="fill"
-            app:auto_show="true"
+
             android:layout_height="match_parent"
             app:controller_layout_id="@layout/vod_controller"/>
 

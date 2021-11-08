@@ -1,5 +1,6 @@
 package com.sahel.hotc.presentation.home
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -29,7 +30,7 @@ class ListVideosFragment : Fragment() {
 
 
     private var thumbNailViewModel: VideoListViewModel?=null
-   
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,12 +47,16 @@ class ListVideosFragment : Fragment() {
         loadData()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun initView() {
         tvName.text = Constants.videoFolderSelected?.name
         ivArrowBack.setOnClickListener {
             (activity as HomeActivity).onBackPressed()
         }
-
+        ivHome.setOnClickListener {
+            (activity as HomeActivity).addReplaceFragment(HomeFragment(),1,Constants.FOLDER_NAME)
+        }
+        Glide.with(requireContext()).load(Constants.VIDEOBACKGROUND).into(bgImg)
         rvVideos.adapter = VideoListAdapter(::videoClicked)
         rvVideos.setHasFixedSize(true)
 
@@ -74,15 +79,16 @@ class ListVideosFragment : Fragment() {
                         f2->f2.name == Constants.BACKGROUND
                 }.mapNotNull {
                         f3->
-                     f3.listFiles()!!.forEach {
-                         if (it.name.trim() == Constants.videoFolderSelected!!.name.trim()){
-                             Glide.with(requireContext()).load(it.listFiles()!!.get(0).absoluteFile).into(bgImg)
-                         }
-                     }
+                    f3.listFiles()!!.forEach {
+                        if (it.name.trim() == Constants.videoFolderSelected!!.name.trim()){
+                            Glide.with(requireContext()).load(it.listFiles()!!.get(0).absoluteFile).into(bgImg)
+                        }
+                    }
                 }
             }
 
             //Video list thumbnails
+
             val fileName = (activity as HomeActivity).getFilesFromPath(Constants.folderName!!).filter {
                 it.name == Constants.VIDEO
             }.mapNotNull {f1->
@@ -90,7 +96,17 @@ class ListVideosFragment : Fragment() {
                         f2->f2.name == Constants.videoFolderSelected!!.name
                 }.mapNotNull {
                         f3->
-                    thumbNailViewModel?.getVideoList(f3.listFiles()!!.toList().filter{ it.name != Constants.BACKGROUND })
+                    f3.listFiles()!!.filter {
+
+                        it.name == Constants.THUMBNAIL
+
+
+                    }.mapNotNull {
+
+                        thumbNailViewModel?.getVideoList(
+                            it.listFiles()!!.toList()
+                                .sortedBy { it.name })
+                    }
                 }
             }
 

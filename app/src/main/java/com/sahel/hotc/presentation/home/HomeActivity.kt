@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.os.Environment.getStorageDirectory
+import android.view.KeyEvent
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.sahel.hotc.R
 import com.sahel.hotc.common.Constants
 import com.sahel.hotc.presentation.home.data.FileModel
@@ -33,6 +36,7 @@ class HomeActivity : AppCompatActivity() {
             val extStorageState = Environment.getExternalStorageState()
             return Environment.MEDIA_MOUNTED.equals(extStorageState)
         }
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,23 +65,47 @@ class HomeActivity : AppCompatActivity() {
                 bundle.putString(filepaths,Environment.getStorageDirectory().path+filepaths)
                 val fragment = HomeFragment()
                 fragment.arguments = bundle
+
                 supportFragmentManager.beginTransaction().replace(R.id.nav_fragment, fragment)
+
                     .commit()
+            }else{
+
+                bundle.putString(filepaths,"storage/$filepaths")
+                val fragment = HomeFragment()
+                fragment.arguments = bundle
+
+                supportFragmentManager.beginTransaction().replace(R.id.nav_fragment, fragment)
+
+                    .commit()
+
+
             }
 
 
         }
 
     }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun addReplaceFragment(fragment: Fragment?, addOrReplace: Int, backStackValue: String) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
         when (addOrReplace) {
             1 -> {
+                val bundle = Bundle()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    bundle.putString(filepaths,Environment.getStorageDirectory().path+filepaths)
+                }else{
+                    bundle.putString(filepaths,"storage/$filepaths")
+                }
 
+                fragment?.arguments = bundle
                 transaction.replace(nav_fragment.id, fragment!!)
-                manager.popBackStack()
+                manager.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+//                Toast.makeText(this,supportFragmentManager.backStackEntryCount.toString(),Toast.LENGTH_SHORT).show()
+
                 transaction.commit()
 
             }
@@ -86,6 +114,8 @@ class HomeActivity : AppCompatActivity() {
                 val bundle = Bundle()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     bundle.putString(filepaths,Environment.getStorageDirectory().path+filepaths)
+                }else{
+                    bundle.putString(filepaths,"storage/$filepaths")
                 }
                 fragment?.arguments = bundle
                 transaction.replace(nav_fragment.id, fragment!!)
@@ -119,5 +149,10 @@ class HomeActivity : AppCompatActivity() {
         return (sizeInBytes.toDouble()) / (1024 * 1024)
     }
 
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//     Toast.makeText(this,supportFragmentManager.backStackEntryCount.toString(),Toast.LENGTH_SHORT).show()
+//
+//    }
 
 }

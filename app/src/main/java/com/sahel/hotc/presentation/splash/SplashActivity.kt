@@ -1,6 +1,7 @@
 package com.sahel.hotc.presentation.splash
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -23,6 +24,7 @@ class SplashActivity : AppCompatActivity() {
         }
         val video = Uri.parse("android.resource://" + packageName + "/" + R.raw.hotc)
         splashVid.setVideoPath(video.toString())
+          
         splashVid.setOnCompletionListener(object:MediaPlayer.OnCompletionListener{
             override fun onCompletion(mp: MediaPlayer?) {
                 startNextActivity()
@@ -32,6 +34,8 @@ class SplashActivity : AppCompatActivity() {
         splashVid.start();
 
     }
+
+
 
     private fun startNextActivity() {
         if (isFinishing())

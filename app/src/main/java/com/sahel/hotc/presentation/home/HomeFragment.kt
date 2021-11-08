@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.bumptech.glide.Glide
 import com.sahel.hotc.R
 import com.sahel.hotc.common.Constants
 import com.sahel.hotc.presentation.home.data.FileModel
@@ -59,6 +60,11 @@ class HomeFragment : Fragment() {
            val fileName = getFileModelsFromFiles(getFilesFromPath(PATH))
 
            tvFolderName.text = fileName.get(0).name
+            val bgFile = getFilesFromPath(PATH).get(0).listFiles()!!.filter {
+                it.name == Constants.BACKGROUND
+            }.mapNotNull {
+                Glide.with(requireContext()).load(it.listFiles()!!.get(0).absolutePath).into(ivBg)
+            }
 
 
        }.onFailure {
@@ -89,4 +95,5 @@ class HomeFragment : Fragment() {
     fun convertFileSizeToMB(sizeInBytes: Long): Double {
         return (sizeInBytes.toDouble()) / (1024 * 1024)
     }
+
 }

@@ -1,5 +1,6 @@
 package com.sahel.hotc.presentation.home
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
@@ -24,6 +25,8 @@ import com.sahel.hotc.presentation.home.viewmodels.ImageViewModel
 import kotlinx.android.synthetic.main.app_bar.*
 
 import kotlinx.android.synthetic.main.fragment_image.*
+
+import kotlinx.android.synthetic.main.fragment_slide_show.bgImg
 
 import java.io.File
 
@@ -55,6 +58,7 @@ class ImageFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_image, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
        initView()
@@ -62,15 +66,18 @@ class ImageFragment : Fragment() {
         loadData()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun initView() {
         tvName.text = Constants.photoFolderSelected?.name
         ivArrowBack.setOnClickListener {
             (activity as HomeActivity).onBackPressed()
         }
-
+        ivHome.setOnClickListener {
+            (activity as HomeActivity).addReplaceFragment(HomeFragment(),1,Constants.FOLDER_NAME)
+        }
         rvImage.adapter = ImageAdapter(::imageClicked)
         rvImage.setHasFixedSize(true)
-        rvImage.layoutManager = GridLayoutManager(requireContext(),4,RecyclerView.VERTICAL,false)
+        rvImage.layoutManager = StaggeredGridLayoutManager(4,RecyclerView.VERTICAL)
 
 
     }
@@ -85,12 +92,14 @@ class ImageFragment : Fragment() {
     private fun loadData() {
         try {
 
+
             val fileName = (activity as HomeActivity).getFilesFromPath(Constants.folderName!!).filter {
                 it.name == Constants.PHOTO
             }.map {f1->
                 f1.listFiles()!!.filter {
-                    f2->f2.name == Constants.photoFolderSelected!!.name
-                }.map {
+                        f2->f2.name == Constants.photoFolderSelected!!.name
+                }
+           .map {
                     f3->
                      imageViewModel?.getImageList(f3.listFiles()!!.toList().filter { it.name != Constants.BACKGROUND })
                 }

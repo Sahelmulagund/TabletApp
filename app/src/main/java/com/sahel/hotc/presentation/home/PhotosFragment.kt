@@ -1,5 +1,6 @@
 package com.sahel.hotc.presentation.home
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -52,15 +53,19 @@ class PhotosFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_photosragment, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         ivArrowBack.setOnClickListener {
             (activity as HomeActivity).onBackPressed()
         }
+        ivHome.setOnClickListener {
+            (activity as HomeActivity).addReplaceFragment(HomeFragment(),1,Constants.FOLDER_NAME)
+        }
         rvPhotos.adapter = PhotoAdapter(::itemClicked)
         rvPhotos.setHasFixedSize(true)
-        tvName.setText(R.string.photo)
+        tvName.setText(Constants.PHOTO)
         loadData()
 
     }
@@ -85,6 +90,8 @@ class PhotosFragment : Fragment() {
                     if (it.name.trim() == Constants.BACKGROUND) {
                         Glide.with(requireContext()).load(it.listFiles()!!.get(0).absoluteFile)
                             .into(bgImg)
+                        val bundle = Bundle()
+                        bundle.putString(Constants.PHOTOBG, it.listFiles()!![0].absolutePath)
                     }
                 }
             }
@@ -92,6 +99,7 @@ class PhotosFragment : Fragment() {
             val mainFile = file?.listFiles()?.filter {
                 it.name.trim() == Constants.PHOTO
             }?.mapNotNull {
+
                 (rvPhotos.adapter as PhotoAdapter).photoList =
                     getPhotoModelsFromFiles(it.listFiles()!!.toList().sortedBy { it.name }.filter { it.name != Constants.BACKGROUND })
 

@@ -3,7 +3,7 @@
     android:layout_margin="@dimen/_2sdp"
     android:layout_width="@dimen/_120sdp"
     android:layout_height="@dimen/_150sdp"
-
+    android:padding="@dimen/_2sdp"
     android:background="@color/white"
     >
 
@@ -11,9 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/img1"
-        android:scaleType="fitXY"
-        android:padding="@dimen/_2sdp"
+        android:scaleType="centerCrop"
+
         android:id="@+id/ivImg"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/overlay_image"/>
      <ImageView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"

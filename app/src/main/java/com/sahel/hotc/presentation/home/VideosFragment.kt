@@ -1,5 +1,6 @@
 package com.sahel.hotc.presentation.home
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -50,10 +51,14 @@ class VideosFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_videos, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ivArrowBack.setOnClickListener {
             (activity as HomeActivity).onBackPressed()
+        }
+        ivHome.setOnClickListener {
+            (activity as HomeActivity).addReplaceFragment(HomeFragment(),1,Constants.FOLDER_NAME)
         }
         rvVideos.adapter = VideoAdapter(::itemClicked)
         rvVideos.setHasFixedSize(true)
@@ -64,7 +69,7 @@ class VideosFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun itemClicked(videoModel: VideoModel) {
 
-            (activity as HomeActivity).addReplaceFragment(ListVideosFragment(),2, Constants.folderName!!)
+        (activity as HomeActivity).addReplaceFragment(ListVideosFragment(),2, Constants.folderName!!)
 
         Constants.videoFolderSelected = videoModel
 
@@ -83,10 +88,11 @@ class VideosFragment : Fragment() {
                 it.listFiles()!!.forEach {
                     if (it.name.trim() == Constants.BACKGROUND){
                         Glide.with(requireContext()).load(it.listFiles()!!.get(0).absoluteFile).into(bgImg)
+                        Constants.VIDEOBACKGROUND = it.listFiles()!!.get(0).absoluteFile
                     }
                 }
             }
-           Constants.folderName = file?.path
+            Constants.folderName = file?.path
 
 
             val mainFile = file!!.listFiles()!!.filter {
@@ -94,11 +100,11 @@ class VideosFragment : Fragment() {
 
 
             }?.mapNotNull {
-                    (rvVideos.adapter as VideoAdapter).videoList= getVideoModelsFromFiles(it.listFiles()!!.toList()
-                        .sortedBy { it.name }.filter { it.name != Constants.BACKGROUND })
+                (rvVideos.adapter as VideoAdapter).videoList= getVideoModelsFromFiles(it.listFiles()!!.toList()
+                    .sortedBy { it.name }.filter { it.name != Constants.BACKGROUND })
 
 
-                }
+            }
 
 
 
@@ -114,17 +120,22 @@ class VideosFragment : Fragment() {
 
             var fileList:MutableList<File> = ArrayList<File>()
             it.listFiles()!!.forEach {
-                if (it.absolutePath.contains(".mp4")){
-                    fileList.add(it)
+                if (it.name == Constants.THUMBNAIL){
+                    it.listFiles()!!.forEach {
+                        if (it.absolutePath.contains(".jpg")|| it.absolutePath.contains(".png")){
+                            fileList.add(it)
+                        }
+                    }
                 }
+
             }
 
-               var myBitmap = ""
-              if (fileList.isNotEmpty()){
-                  myBitmap = fileList.get(0).absolutePath
-              }
+            var myBitmap = ""
+            if (fileList.isNotEmpty()){
+                myBitmap = fileList.get(0).absolutePath
+            }
 
-               VideoModel(it.name,myBitmap)
+            VideoModel(it.name,myBitmap)
 
 
 
